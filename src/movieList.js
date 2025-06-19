@@ -1,19 +1,25 @@
 import React from "react";
 import MovieItem from "./movieItem";
+import Pagination from "./Pagination";
 
 class MovieList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
+      currentPage: 1,
+      totalPages: 1,
       loading: true,
       error: null,
     };
   }
 
   componentDidMount() {
-    const API_URL =
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=b87819e8c1864d15916329ffb89f98e5";
+    this.fetchMovies(1);
+  }
+  fetchMovies = (page) => {
+    const API_URL = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}&api_key=b87819e8c1864d15916329ffb89f98e5`;
+    this.setState({ loading: true });
 
     fetch(API_URL)
       .then((response) => {
@@ -25,6 +31,8 @@ class MovieList extends React.Component {
       .then((data) => {
         this.setState({
           movies: data.results,
+          currentPage: page,
+          totalPages: data.total_pages,
           loading: false,
         });
       })
@@ -35,10 +43,14 @@ class MovieList extends React.Component {
           error: "Не вдалося завантажити фільм.",
         });
       });
-  }
+  };
+
+  handlePageChange = (newPage) => {
+    this.fetchMovies(newPage);
+  };
 
   render() {
-    const { loading, error, movies } = this.state;
+    const { currentPage, totalPages, loading, error, movies } = this.state;
 
     if (loading) {
       return <p>loading movies...</p>;
@@ -61,6 +73,11 @@ class MovieList extends React.Component {
             }}
           />
         ))}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     );
   }

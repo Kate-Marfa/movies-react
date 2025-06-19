@@ -9,7 +9,6 @@ class RateSwitch extends React.Component {
   }
 
   toggleRate = () => {
-    console.log("Click!");
     this.setState((prevState) => ({
       showRate: !prevState.showRate,
     }));
