@@ -57,6 +57,7 @@ class MovieList extends React.Component {
               title: movie.title,
               poster: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
               overview: movie.overview,
+              popularity: movie.popularity,
             }}
           />
         ))}
