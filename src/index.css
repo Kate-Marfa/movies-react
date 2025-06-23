@@ -15,6 +15,20 @@ h1 {
   color: #333;
 }
 
+.theme-button{
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 15px;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.theme-button:hover {
+  background-color: #e0e0e0;
+}
+
 .movie-list {
   display: flex;
   flex-direction: column;
