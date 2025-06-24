@@ -1,23 +1,25 @@
 import React from "react";
+import ThemeContext from "./ThemeContext";
 
 export class ThemeButton extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isLight: true,
-    };
-    this.toggleTheme = this.toggleTheme.bind(this);
-  }
-  toggleTheme() {
-    this.setState((prevState) => ({
-      isLight: !prevState.isLight,
-    }));
-  }
+  static contextType = ThemeContext;
+  //   constructor() {
+  //   super();
+  //   this.state = {
+  //     isLight: true,
+  //   };
+  //   this.toggleTheme = this.toggleTheme.bind(this);
+  // }
+  // toggleTheme() {
+  //   this.setState((prevState) => ({
+  //     isLight: !prevState.isLight,
+  //   }));
+
   render() {
-    const { isLight } = this.state;
+    const { isLight, toggleTheme } = this.context;
 
     return (
-      <button className="theme-button" onClick={this.toggleTheme}>
+      <button className="theme-button" onClick={toggleTheme}>
         {isLight ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
