@@ -3,17 +3,6 @@ import ThemeContext from "./ThemeContext";
 
 export class ThemeButton extends React.Component {
   static contextType = ThemeContext;
-  //   constructor() {
-  //   super();
-  //   this.state = {
-  //     isLight: true,
-  //   };
-  //   this.toggleTheme = this.toggleTheme.bind(this);
-  // }
-  // toggleTheme() {
-  //   this.setState((prevState) => ({
-  //     isLight: !prevState.isLight,
-  //   }));
 
   render() {
     const { isLight, toggleTheme } = this.context;
