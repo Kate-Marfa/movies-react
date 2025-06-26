@@ -11,8 +11,16 @@ class MovieList extends React.Component {
       totalPages: 1,
       loading: true,
       error: null,
+      openPopUpId: null,
     };
   }
+  handlePopUpOpen = (movieId) => {
+    this.setState({ openPopUpId: movieId });
+  };
+
+  handlePopUpClose = () => {
+    this.setState({ openPopUpId: null });
+  };
 
   componentDidMount() {
     this.fetchMovies(1);
@@ -50,7 +58,8 @@ class MovieList extends React.Component {
   };
 
   render() {
-    const { currentPage, totalPages, loading, error, movies } = this.state;
+    const { currentPage, totalPages, loading, error, movies, releaseDate } =
+      this.state;
 
     if (loading) {
       return <p>loading movies...</p>;
@@ -59,7 +68,6 @@ class MovieList extends React.Component {
     if (error) {
       return <p>{error}</p>;
     }
-
     return (
       <div className="movie-list">
         {movies.map((movie) => (
@@ -70,7 +78,11 @@ class MovieList extends React.Component {
               poster: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
               overview: movie.overview,
               popularity: movie.popularity,
+              releaseDate: movie.release_date,
             }}
+            openPopUpId={this.state.openPopUpId}
+            onPopUpOpen={this.handlePopUpOpen}
+            onPopUpClose={this.handlePopUpClose}
           />
         ))}
         <Pagination
