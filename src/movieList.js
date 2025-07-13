@@ -1,33 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MovieItem from "./movieItem";
 import Pagination from "./Pagination";
 
-class MovieList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movies: [],
-      currentPage: 1,
-      totalPages: 1,
-      loading: true,
-      error: null,
-      openPopUpId: null,
-    };
-  }
-  handlePopUpOpen = (movieId) => {
-    this.setState({ openPopUpId: movieId });
-  };
+function MovieList() {
+  const [movies, setMovies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
+  const [openPopUpId, setOpenPopUpId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  handlePopUpClose = () => {
-    this.setState({ openPopUpId: null });
-  };
-
-  componentDidMount() {
-    this.fetchMovies(1);
-  }
-  fetchMovies = (page) => {
+  const fetchMovies = (page) => {
     const API_URL = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}&api_key=b87819e8c1864d15916329ffb89f98e5`;
-    this.setState({ loading: true });
+    setLoading(true);
+    setError(null);
 
     fetch(API_URL)
       .then((response) => {
@@ -37,62 +23,67 @@ class MovieList extends React.Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({
-          movies: data.results,
-          currentPage: page,
-          totalPages: data.total_pages,
-          loading: false,
-        });
+        setMovies(data.results);
+        setCurrentPage(page);
+        setTotalPages(data.total_pages);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Помилка при завантаженні:", error);
-        this.setState({
-          loading: false,
-          error: "Не вдалося завантажити фільм.",
-        });
+        setLoading(false);
+        setError("Не вдалося завантажити фільм.");
       });
   };
 
-  handlePageChange = (newPage) => {
-    this.fetchMovies(newPage);
+  useEffect(() => {
+    fetchMovies(1);
+  }, []);
+
+  const handlePageChange = (newPage) => {
+    fetchMovies(newPage);
   };
 
-  render() {
-    const { currentPage, totalPages, loading, error, movies, releaseDate } =
-      this.state;
+  const handlePopUpOpen = (movieId) => {
+    setOpenPopUpId(movieId);
+  };
 
-    if (loading) {
-      return <p>loading movies...</p>;
-    }
+  const handlePopUpClose = () => {
+    setOpenPopUpId(null);
+  };
 
-    if (error) {
-      return <p>{error}</p>;
-    }
-    return (
-      <div className="movie-list">
-        {movies.map((movie) => (
-          <MovieItem
-            key={movie.id}
-            movie={{
-              title: movie.title,
-              poster: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
-              overview: movie.overview,
-              popularity: movie.popularity,
-              releaseDate: movie.release_date,
-            }}
-            openPopUpId={this.state.openPopUpId}
-            onPopUpOpen={this.handlePopUpOpen}
-            onPopUpClose={this.handlePopUpClose}
-          />
-        ))}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={this.handlePageChange}
-        />
-      </div>
-    );
+  if (loading) {
+    return <p>loading movies...</p>;
   }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  return (
+    <div className="movie-list">
+      {movies.map((movie) => (
+        <MovieItem
+          key={movie.id}
+          movie={{
+            title: movie.title,
+            poster: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+            overview: movie.overview,
+            popularity: movie.popularity,
+            releaseDate: movie.release_date,
+            id: movie.id,
+          }}
+          openPopUpId={openPopUpId}
+          onPopUpOpen={handlePopUpOpen}
+          onPopUpClose={handlePopUpClose}
+        />
+      ))}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
 }
 
 export default MovieList;

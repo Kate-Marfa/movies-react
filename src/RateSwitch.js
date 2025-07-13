@@ -1,43 +1,30 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import ThemeContext from "./ThemeContext";
 
-class RateSwitch extends React.Component {
-  static contextType = ThemeContext;
-  constructor(props) {
-    super(props);
-    this.state = {
-      showRate: false,
-    };
-  }
+function RateSwitch({ popularity }) {
+  const [showRate, setShowRate] = useState(false);
+  const { isLight } = useContext(ThemeContext);
 
-  toggleRate = () => {
-    this.setState((prevState) => ({
-      showRate: !prevState.showRate,
-    }));
+  const toggleRate = () => {
+    setShowRate((prev) => !prev);
   };
 
-  render() {
-    const { isLight } = this.context;
-    const { popularity } = this.props;
-    const { showRate } = this.state;
+  const rateStyle = {
+    backgroundColor: isLight ? "#ffffff" : "#ccc",
+  };
 
-    const rateStyle = {
-      backgroundColor: isLight ? "#ffffff" : "#ccc",
-    };
-
-    return (
-      <div style={rateStyle} className="movie-rate" onClick={this.toggleRate}>
-        {showRate ? (
-          <>
-            <span>Rate: {popularity}</span>
-            <span className="right-text">Hide Rate</span>
-          </>
-        ) : (
-          <span>Show Rate</span>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div style={rateStyle} className="movie-rate" onClick={toggleRate}>
+      {showRate ? (
+        <>
+          <span>Rate: {popularity}</span>
+          <span className="right-text">Hide Rate</span>
+        </>
+      ) : (
+        <span>Show Rate</span>
+      )}
+    </div>
+  );
 }
 
 export default RateSwitch;
