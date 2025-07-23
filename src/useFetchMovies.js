@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function useFetchMovies(apiBaseUrl, initialPage = 1) {
+function useFetchMovies({ apiUrl }, initialPage = 1) {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(1);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -10,7 +10,8 @@ function useFetchMovies(apiBaseUrl, initialPage = 1) {
   const fetchData = (page) => {
     setLoading(true);
     setError(null);
-    const url = `${apiBaseUrl}&page=${page}`;
+    const url = `${apiUrl}&page=${page}`;
+    console.log("fetching:", apiUrl);
 
     fetch(url)
       .then((res) => {
@@ -31,7 +32,7 @@ function useFetchMovies(apiBaseUrl, initialPage = 1) {
 
   useEffect(() => {
     fetchData(initialPage);
-  }, [apiBaseUrl]);
+  }, [apiUrl]);
 
   const changePage = (newPage) => {
     fetchData(newPage);

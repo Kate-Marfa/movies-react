@@ -1,13 +1,13 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./app";
 import ThemeContext from "./ThemeContext";
 import TvShowRedirect from "./TvShowRedirect";
-
+import TopRatedMoviesPage from "./TopRatedMoviesPage";
 
 function Router() {
- const { isLight } = useContext(ThemeContext);
-    const navItemStyle = {
+  const { isLight } = useContext(ThemeContext);
+  const navItemStyle = {
     color: isLight ? "#000000" : "#ccc",
   };
   return (
@@ -38,7 +38,7 @@ function Router() {
       <hr />
       <Routes>
         <Route exact path="/" element={<App />} />
-        <Route path="/top-rated-movies" element={<App />} />
+        <Route path="/top-rated-movies" element={<TopRatedMoviesPage />} />
         <Route path="/tv-shows" element={<TvShowRedirect />} />
       </Routes>
     </BrowserRouter>

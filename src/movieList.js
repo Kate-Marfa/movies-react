@@ -3,9 +3,8 @@ import MovieItem from "./movieItem";
 import Pagination from "./Pagination";
 import useFetchMovies from "./useFetchMovies";
 
-function MovieList() {
+function MovieList({ apiUrl }) {
   const [openPopUpId, setOpenPopUpId] = useState(null);
-  const API_URL = `https://api.themoviedb.org/3/movie/popular?language=en-US&api_key=b87819e8c1864d15916329ffb89f98e5`;
 
   const {
     data: movies,
@@ -14,7 +13,7 @@ function MovieList() {
     loading,
     error,
     changePage,
-  } = useFetchMovies(API_URL);
+  } = useFetchMovies({ apiUrl });
 
   const handlePopUpOpen = (movieId) => {
     setOpenPopUpId(movieId);
