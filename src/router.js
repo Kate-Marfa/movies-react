@@ -1,29 +1,45 @@
-import React from "react";
+import React, {useContext} from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./app";
+import ThemeContext from "./ThemeContext";
+
 
 function Router() {
+ const { isLight } = useContext(ThemeContext);
+    const navItemStyle = {
+    color: isLight ? "#000000" : "#ccc",
+  };
   return (
     <BrowserRouter>
-      <nav>
+      <nav className="nav">
         <ul className="navList">
-          <li className="navItem">
-            <Link to="/">Favorite Movies</Link>
+          <li>
+            <Link to="/" className="navItem" style={navItemStyle}>
+              Favorite Movies
+            </Link>
           </li>
-          <li className="navItem">
-            <Link to="/top-rated-movies">Top Rated Movies</Link>
+          <li>
+            <Link
+              to="/top-rated-movies"
+              className="navItem"
+              style={navItemStyle}
+            >
+              Top Rated Movies
+            </Link>
           </li>
-          <li className="navItem">
-            <Link to="/tv-shows">TV Shows</Link>
+          <li>
+            <Link to="/tv-shows" className="navItem"style={navItemStyle}>
+              TV Shows
+            </Link>
           </li>
-              </ul>
-              </nav>
-        <hr />
-        <Routes>
-          <Route exact path="/" element={<App />} />
-          <Route path="/top-rated-movies" element={<App />} />
-          <Route path="/tv-shows" element={<App />} />
-        </Routes>
+        </ul>
+      </nav>
+      <hr />
+      <Routes>
+        <Route exact path="/" element={<App />} />
+        <Route path="/top-rated-movies" element={<App />} />
+        <Route path="/tv-shows" element={<App />} />
+      </Routes>
     </BrowserRouter>
   );
 }
