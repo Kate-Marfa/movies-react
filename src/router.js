@@ -5,25 +5,25 @@ import App from "./app";
 function Router() {
   return (
     <BrowserRouter>
-      <div>
-        <ul>
-          <li>
+      <nav>
+        <ul className="navList">
+          <li className="navItem">
             <Link to="/">Favorite Movies</Link>
           </li>
-          <li>
+          <li className="navItem">
             <Link to="/top-rated-movies">Top Rated Movies</Link>
           </li>
-          <li>
+          <li className="navItem">
             <Link to="/tv-shows">TV Shows</Link>
           </li>
-        </ul>
+              </ul>
+              </nav>
         <hr />
         <Routes>
           <Route exact path="/" element={<App />} />
           <Route path="/top-rated-movies" element={<App />} />
           <Route path="/tv-shows" element={<App />} />
         </Routes>
-      </div>
     </BrowserRouter>
   );
 }
