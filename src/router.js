@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import App from "./app";
 import ThemeContext from "./ThemeContext";
+import TvShowRedirect from "./TvShowRedirect";
 
 
 function Router() {
@@ -28,7 +29,7 @@ function Router() {
             </Link>
           </li>
           <li>
-            <Link to="/tv-shows" className="navItem"style={navItemStyle}>
+            <Link to="/tv-shows" className="navItem" style={navItemStyle}>
               TV Shows
             </Link>
           </li>
@@ -38,7 +39,7 @@ function Router() {
       <Routes>
         <Route exact path="/" element={<App />} />
         <Route path="/top-rated-movies" element={<App />} />
-        <Route path="/tv-shows" element={<App />} />
+        <Route path="/tv-shows" element={<TvShowRedirect />} />
       </Routes>
     </BrowserRouter>
   );
